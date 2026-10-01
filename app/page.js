@@ -44,7 +44,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <header id="top">
         <div className="shapes" aria-hidden="true"><i /><i /><i /><i /></div>
-        <div className="w hero">
+        <div className="w hero px-4 md:px-0">
           <p className="lab hi">{SITE.role}<span className="cur" aria-hidden="true" /></p>
           <h1>
             <span className="ln"><span className="hi">Sujoy Kumar</span></span>{' '}
