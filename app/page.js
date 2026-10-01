@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Projects from '../components/Projects';
 import Gallery from '../components/Gallery';
-import { SITE, meta, projects, skills, stories, training, marquee, glance, steps } from '../lib/data';
+import { SITE, phones, waLink, meta, projects, skills, stories, training, marquee, glance, steps } from '../lib/data';
 
 const ld = {
   '@context': 'https://schema.org',
@@ -140,8 +140,19 @@ export default function Home() {
         <Sec id="contact">
           <div className="lab rv" style={{ marginBottom: 26 }}>07 — Contact</div>
           <h2 className="ct sp" id="contact-h">Let&apos;s work<br />together<em className="pd">.</em></h2>
+          <div className="cn rv">
+            {phones.map((p) => (
+              <div className="cn-r" key={p.tel}>
+                <span className="cn-l">{p.label} · WhatsApp</span>
+                <span className="cn-n">{p.display}</span>
+                <span className="cn-a">
+                  <a className="sq" href={`tel:${p.tel}`}>Call</a>
+                  <a className="sq f" href={waLink(p)} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </span>
+              </div>
+            ))}
+          </div>
           <div className="cl rv">
-            <a href={SITE.phoneHref}><span>Phone</span><span>{SITE.phone}</span></a>
             <a href={SITE.oldPortfolio} target="_blank" rel="noopener noreferrer"><span>Old Portfolio</span><span>spsujoy.netlify.app ↗</span></a>
             <div><span>Location</span><span>Vadodara, Gujarat, India</span></div>
           </div>

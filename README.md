@@ -20,6 +20,12 @@ Hero intro timeline, masked heading reveals, scroll-filled About text, counters,
 horizontally pinned "Process" section, tile wipes in Stories, magnetic buttons, hide-on-scroll nav, progress bar
 footer wordmark, intro loader with counter, per-letter hero reveal, floating hero shapes, a custom square cursor and scroll-velocity skew on images. Everything is skipped when the visitor prefers reduced motion, and content is always in the HTML for SEO.
 
+## Contact numbers
+Edit the `phones` array in `lib/data.js` (display text, `tel:` number and WhatsApp number). Both numbers get Call and WhatsApp buttons in the Contact section; the footer uses the first one.
+
+## Projects
+Projects are an array in `lib/data.js` (`projects`). Each object becomes a page at `/work/<slug>` automatically (the project title on the home page opens it): name, tagline, type, role, thumbnail (shown full-bleed), languages, frameworks, other tools, overview, "how it works" steps and optional links. `thumb.src` can be a local file in `public/` or a remote image URL (hosts must be listed in `next.config.mjs`). Fill the `TODO` stacks for MyPaste and Profile-View.
+
 ## Blog
 - Posts are Markdown files in `content/posts/`; their images live in `public/blog/<slug>/`.
 - Create a post: `npm run new-post -- "My post title"`, then drop your images into `public/blog/<slug>/` and edit the front matter.

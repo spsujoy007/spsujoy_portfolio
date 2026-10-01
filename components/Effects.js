@@ -105,6 +105,13 @@ export default function Effects() {
       ScrollTrigger.create({ onUpdate: (s) => { skew(gsap.utils.clamp(-5, 5, s.getVelocity() / -350)); const v = 1 + Math.min(7, Math.abs(s.getVelocity()) / 300); tweens.forEach((t) => gsap.to(t, { timeScale: v, duration: 0.3, overwrite: true })); } });
       ScrollTrigger.addEventListener('scrollEnd', onEnd);
 
+      /* Project page: full-bleed hero wipes in from the left, then drifts as you scroll */
+      if (document.querySelector('.wk-hero')) {
+        gsap.fromTo('.wk-hero', { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'power4.inOut', delay: 0.35, clearProps: 'clipPath' });
+        gsap.fromTo('.wk-hero img', { scale: 1.2, yPercent: -7 }, { scale: 1.06, yPercent: 7, ease: 'none', scrollTrigger: { trigger: '.wk-hero', start: 'top bottom', end: 'bottom top', scrub: true } });
+        gsap.from('.wk-cap', { xPercent: -101, duration: 0.9, delay: 1.5, ease: 'power4.out' });
+      }
+
       /* Blog post page */
       if (document.querySelector('.pimg')) {
         gsap.fromTo('.pimg', { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power4.out', delay: 0.2, clearProps: 'clipPath' });

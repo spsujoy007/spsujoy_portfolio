@@ -17,7 +17,7 @@ export default function Nav() {
   const [menu, setMenu] = useState(false);
   const [time, setTime] = useState('');
   const ind = useRef(null), mm = useRef(null), refs = useRef({}), first = useRef(true);
-  const active = path.startsWith('/blog') ? 'blog' : path === '/' ? spy : '';
+  const active = path.startsWith('/blog') ? 'blog' : path.startsWith('/work') ? 'work' : path === '/' ? spy : '';
 
   // scroll-spy (home page only)
   useEffect(() => {

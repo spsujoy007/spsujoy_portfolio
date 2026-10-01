@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SITE } from '../lib/data';
+import { SITE, phones, waLink } from '../lib/data';
 
 const words = ['Thanks for visiting', 'See you soon', "Let's build together", 'Full Stack Web Developer'];
 
@@ -12,7 +12,8 @@ export default function Footer() {
         <h2 className="ft-h sp">Thanks for<br />visiting<em className="pd">.</em></h2>
         <p className="ft-p">You made it to the end. If something here sparked an idea, let&apos;s build it together.</p>
         <div className="ft-b">
-          <a className="sq f" href={SITE.phoneHref}>Call {SITE.phone}</a>
+          <a className="sq f" href={waLink(phones[0])} target="_blank" rel="noopener noreferrer">WhatsApp {phones[0].display}</a>
+          <a className="sq" href={`tel:${phones[0].tel}`}>Call</a>
           <button type="button" className="sq" id="party">Celebrate</button>
           <a className="sq" id="totop" href="#">Back to top ↑</a>
         </div>
