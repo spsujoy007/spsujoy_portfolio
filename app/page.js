@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Projects from '../components/Projects';
+import Gap from '../components/Gap';
 import Gallery from '../components/Gallery';
 import { SITE, phones, waLink, meta, projects, skills, stories, training, marquee, glance, steps } from '../lib/data';
 
@@ -43,8 +44,8 @@ export default function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <header id="top">
-        <div className="shapes" aria-hidden="true"><i /><i /><i /><i /></div>
-        <div className="w hero px-4 md:px-0">
+        <div className="shapes" aria-hidden="true"><i /><i /><i /><i /><Gap className="gp-hero" /></div>
+        <div className="w hero">
           <p className="lab hi">{SITE.role}<span className="cur" aria-hidden="true" /></p>
           <h1>
             <span className="ln"><span className="hi">Sujoy Kumar</span></span>{' '}
@@ -107,6 +108,7 @@ export default function Home() {
 
         <section id="process" aria-labelledby="process-h">
           <span className="rl" aria-hidden="true" />
+          <Gap className="gp-pr" />
           <div className="w"><Head id="process" num="04" label="Process" title="How I build." /></div>
           <div className="hz">
             <ol className="hz-t">
@@ -124,6 +126,7 @@ export default function Home() {
         </section>
 
         <Sec id="stories">
+          <Gap className="gp-side" />
           <Head id="stories" num="05" label="Stories" title="Moments from behind the screen." hint="Click any image to view it larger." />
           <Gallery stories={stories} />
         </Sec>

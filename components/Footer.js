@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Gap from './Gap';
 import { SITE, phones, waLink } from '../lib/data';
 
 const words = ['Thanks for visiting', 'See you soon', "Let's build together", 'Full Stack Web Developer'];
@@ -6,7 +7,7 @@ const words = ['Thanks for visiting', 'See you soon', "Let's build together", 'F
 export default function Footer() {
   return (
     <footer>
-      <div className="fsh" aria-hidden="true"><i /><i /><i /></div>
+      <div className="fsh" aria-hidden="true"><i /><i /><i /><Gap className="gp-foot" /></div>
       <div className="w ft-top">
         <p className="lab">end of page · <span className="ft-pc">100</span>% explored</p>
         <h2 className="ft-h sp">Thanks for<br />visiting<em className="pd">.</em></h2>

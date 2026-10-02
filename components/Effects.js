@@ -37,6 +37,7 @@ export default function Effects() {
         const len = () => '+=' + Math.max(dist(), 1) * 1.1;
         const move = gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: sec, start: 'top top', end: len, pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 1 } });
         gsap.to('.hz-bar i', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: sec, start: 'top top', end: len, scrub: true, invalidateOnRefresh: true } });
+        gsap.to('.gp-pr', { xPercent: -22, ease: 'none', scrollTrigger: { trigger: sec, start: 'top top', end: len, scrub: true, invalidateOnRefresh: true } });
         q('.hp').forEach((p) => gsap.from(q('.nn,h3,p,.tg', p), { autoAlpha: 0, y: 40, duration: 0.9, stagger: 0.08, ease: 'power3.out', scrollTrigger: { trigger: p, containerAnimation: move, start: 'left 88%', toggleActions: 'play none none reverse' } }));
         return () => root.classList.remove('hz-on');
       });
@@ -104,6 +105,16 @@ export default function Effects() {
       if (skewEls.length) skew = gsap.quickTo(skewEls, 'skewY', { duration: 0.5, ease: 'power3' });
       ScrollTrigger.create({ onUpdate: (s) => { skew(gsap.utils.clamp(-5, 5, s.getVelocity() / -350)); const v = 1 + Math.min(7, Math.abs(s.getVelocity()) / 300); tweens.forEach((t) => gsap.to(t, { timeScale: v, duration: 0.3, overwrite: true })); } });
       ScrollTrigger.addEventListener('scrollEnd', onEnd);
+
+      /* Decorative lettering: soft reveal, slow drift and shimmer */
+      q('.gp:not(.gp-ld)').forEach((el) => {
+        const ch = q('b', el), hero = el.classList.contains('gp-hero'), host = el.closest('section,header,footer') || el.parentElement;
+        gsap.fromTo(ch, { autoAlpha: 0, yPercent: 35 }, { autoAlpha: 1, yPercent: 0, duration: 2.2, stagger: 0.22, ease: 'expo.out', delay: hero ? loaderDelay + 0.7 : 0, scrollTrigger: hero ? undefined : { trigger: host, start: 'top 80%', once: true } });
+        gsap.to(ch, { y: 'random(-14,14)', duration: 'random(4,7)', repeat: -1, yoyo: true, repeatRefresh: true, ease: 'sine.inOut' });
+        gsap.to(el, { opacity: 0.55, duration: 3.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        if (!el.classList.contains('gp-pr')) gsap.fromTo(el, { yPercent: -6 }, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: host, start: 'top bottom', end: 'bottom top', scrub: true } });
+      });
+      if (!window.__gapLog) { window.__gapLog = true; console.log('%c GAP ', 'background:#ff6a1f;color:#0a0a0a;font:700 14px monospace;padding:4px 8px'); }
 
       /* Project page: full-bleed hero wipes in from the left, then drifts as you scroll */
       if (document.querySelector('.wk-hero')) {
@@ -219,6 +230,39 @@ export default function Effects() {
       const out = () => { shown = false; gsap.to([ring, dot], { autoAlpha: 0, duration: 0.2 }); };
       addEventListener('pointermove', mv); addEventListener('pointerover', over); document.documentElement.addEventListener('pointerleave', out);
       return () => { removeEventListener('pointermove', mv); removeEventListener('pointerover', over); document.documentElement.removeEventListener('pointerleave', out); ring.remove(); dot.remove(); };
+    });
+
+    /* Hero lettering follows the pointer very slightly */
+    mm.add('(hover: hover) and (pointer: fine)', () => {
+      const h = document.querySelector('.gp-hero');
+      if (!h) return;
+      const gx = gsap.quickTo(h, 'x', { duration: 1.2, ease: 'power3' }), gy = gsap.quickTo(h, 'y', { duration: 1.2, ease: 'power3' });
+      const mv = (e) => { gx((e.clientX / innerWidth - 0.5) * -40); gy((e.clientY / innerHeight - 0.5) * -24); };
+      addEventListener('pointermove', mv);
+      return () => removeEventListener('pointermove', mv);
+    });
+
+    /* A small surprise for keyboard visitors */
+    let busy = false, buf = '';
+    const reveal = () => {
+      if (busy) return; busy = true;
+      const ov = document.createElement('div');
+      ov.className = 'gp-ov'; ov.setAttribute('aria-hidden', 'true');
+      ov.innerHTML = '<span class="gp"><b>G</b><b>A</b><b>P</b></span>';
+      document.body.appendChild(ov);
+      const ch = q('b', ov);
+      gsap.timeline({ onComplete: () => { ov.remove(); busy = false; } })
+        .fromTo(ov, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, ease: 'power2.out' })
+        .fromTo(ch, { yPercent: 60, rotate: 8, autoAlpha: 0 }, { yPercent: 0, rotate: 0, autoAlpha: 1, duration: 1.1, stagger: 0.14, ease: 'expo.out' }, 0.1)
+        .fromTo(ch, { color: 'rgba(255,106,31,0)' }, { color: 'rgba(255,106,31,1)', duration: 0.9, stagger: 0.14, ease: 'power2.inOut' }, 0.9)
+        .to(ch, { yPercent: -20, autoAlpha: 0, duration: 0.9, stagger: 0.08, ease: 'power3.in' }, 2.4)
+        .to(ov, { autoAlpha: 0, duration: 0.6 }, 3);
+    };
+    on(window, 'keydown', (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || !e.key || e.key.length !== 1) return;
+      if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
+      buf = (buf + e.key.toLowerCase()).slice(-3);
+      if (buf === 'gap') { buf = ''; reveal(); }
     });
 
     const refresh = () => ScrollTrigger.refresh();

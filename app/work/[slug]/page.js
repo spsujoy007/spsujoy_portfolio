@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import Gap from '../../../components/Gap';
 import { SITE, projects, getProject } from '../../../lib/data';
 
 export const dynamicParams = false;
@@ -43,6 +44,7 @@ export default async function ProjectPage({ params }) {
       <div className="w">
         <nav className="bc" aria-label="Breadcrumb"><Link href="/#work">← Work</Link> / <span>{p.slug}</span></nav>
         <header className="wk-h">
+          <Gap className="gp-pg" />
           <p className="lab rv">Project {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</p>
           <h1 className="wk-t sp">{p.name}<em className="pd">.</em></h1>
           <p className="wk-tag rv">{p.tagline}</p>
